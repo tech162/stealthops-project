@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>STEALTHOPS // The Heist</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="StealthOps home">
+        <span class="brand-mark">S<span>+</span></span>
+        <span><strong>STEALTHOPS</strong><small>TACTICAL INFILTRATION UNIT</small></span>
+      </a>
+      <div class="top-status"><span class="live-dot"></span> SIMULATION ONLINE <span class="divider">/</span> OPERATION 07</div>
+      <button id="restartBtn" class="ghost-btn" type="button">↻ RESTART</button>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">MISSION BRIEFING <span>///</span> CLASSIFIED</p>
+          <h1>THE <em>HEIST</em></h1>
+          <p class="hero-copy">Infiltrate the facility. Secure the intel. Reach extraction without being detected.</p>
+        </div>
+        <div class="mission-stamp"><span>OPERATION</span><strong>GHOST KEY</strong><small>DIFFICULTY: HIGH</small></div>
+      </section>
+
+      <section class="game-layout">
+        <div class="map-panel panel">
+          <div class="panel-heading">
+            <div><span class="section-index">01</span><h2>FACILITY SCHEMATIC</h2></div>
+            <span class="small-status"><span class="live-dot"></span> LIVE FEED</span>
+          </div>
+          <div class="map-wrap">
+            <div id="gameMap" class="game-map" role="grid" aria-label="StealthOps game map"></div>
+          </div>
+          <div class="map-footer">
+            <span><i class="legend player-legend"></i> YOU</span>
+            <span><i class="legend guard-legend"></i> GUARD</span>
+            <span><i class="legend camera-legend"></i> CAMERA</span>
+            <span><i class="legend treasure-legend"></i> INTEL</span>
+            <span><i class="legend exit-legend"></i> EXIT</span>
+          </div>
+        </div>
+
+        <aside class="sidebar">
+          <div class="panel objective-panel">
+            <div class="panel-heading"><div><span class="section-index">02</span><h2>OBJECTIVES</h2></div></div>
+            <div class="objective" id="intelObjective"><span class="objective-icon">◇</span><div><strong>Recover the intel</strong><small>Locate and secure the target</small></div><span class="objective-state">PENDING</span></div>
+            <div class="objective" id="exitObjective"><span class="objective-icon">↗</span><div><strong>Reach extraction</strong><small>Exit unlocks after intel pickup</small></div><span class="objective-state">LOCKED</span></div>
+          </div>
+
+          <div class="panel stats-panel">
+            <div class="panel-heading"><div><span class="section-index">03</span><h2>FIELD STATUS</h2></div></div>
+            <div class="stat-grid">
+              <div class="stat"><span>MOVES LEFT</span><strong id="movesLeft">35</strong></div>
+              <div class="stat"><span>THREAT LEVEL</span><strong id="threatLevel" class="threat">LOW</strong></div>
+            </div>
+            <div class="status-row"><span>INTEL STATUS</span><strong id="intelStatus">NOT SECURED</strong></div>
+            <div class="status-row"><span>PLAYER POSITION</span><strong id="playerPosition">02 : 02</strong></div>
+          </div>
+
+          <div class="panel controls-panel">
+            <div class="panel-heading"><div><span class="section-index">04</span><h2>CONTROLS</h2></div></div>
+            <div class="dpad">
+              <span></span><button data-move="w" aria-label="Move up">↑</button><span></span>
+              <button data-move="a" aria-label="Move left">←</button><button data-move="s" aria-label="Move down">↓</button><button data-move="d" aria-label="Move right">→</button>
+            </div>
+            <p class="control-hint">Use <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> or arrow keys to move.</p>
+            <button id="quitBtn" class="danger-btn" type="button">ABORT MISSION <span>↗</span></button>
+          </div>
+        </aside>
+      </section>
+
+      <section class="bottom-grid">
+        <div class="panel log-panel">
+          <div class="panel-heading"><div><span class="section-index">05</span><h2>MISSION LOG</h2></div><span class="log-count" id="logCount">01 ENTRIES</span></div>
+          <div id="missionLog" class="mission-log" aria-live="polite"></div>
+        </div>
+        <div class="panel briefing-panel">
+          <span class="section-index">FIELD INTEL</span>
+          <h3>Stay out of sight.</h3>
+          <p>Patrols move after each valid step. Camera sightlines run horizontally and are blocked by walls. One careless move can end the operation.</p>
+          <div class="briefing-foot"><span>SECURE CHANNEL</span><span>ENCRYPTION ACTIVE ●</span></div>
+        </div>
+      </section>
+      <footer><span>STEALTHOPS <b>©</b> TACTICAL TRAINING SIMULATOR</span><span>FRONTEND DEMO <b>•</b> BUILD 1.0.0</span></footer>
+    </main>
+  </div>
+
+  <div id="resultModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="resultTitle">
+    <div class="modal-card">
+      <span class="eyebrow">OPERATION REPORT</span>
+      <h2 id="resultTitle">MISSION ENDED</h2>
+      <p id="resultText"></p>
+      <button id="modalRestart" class="primary-btn" type="button">RUN IT BACK ↻</button>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
