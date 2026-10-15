@@ -3,6 +3,8 @@
 #include <string>
 #include <cctype>
 #include <cstdlib>
+#include <fstream>   // file handling
+#include <stdexcept> //  runtime_error for exception handling
 using namespace std;
 
 // ======= CHARACTER BASE CLASS ======
@@ -10,7 +12,7 @@ using namespace std;
 class Character {
 
 protected:
-    int x, y;  //x is for horizontal postion ,y is for vertical postion.
+    int x, y;       //x is for horizontal postion ,y is for vertical postion.
     char symbol;
 
 public:
@@ -77,7 +79,7 @@ public:
             direction = 1;    //guard initially moves right.
 
         }
-          
+
 
     void move(char direction) override {
         (void)direction;
@@ -148,6 +150,48 @@ private:
     bool gameOver;
     bool won;
 
+    //  Read earlier mission results from a text file.
+    void showPreviousResults() {
+        ifstream fin("game_history.txt");
+
+        if (!fin) {
+            cout << "\nNo previous mission history found.\n";
+            return;
+        }
+
+        string line;
+        cout << "\n===== PREVIOUS MISSION HISTORY =====\n";
+
+        while (getline(fin, line)) {
+            cout << line << '\n';
+        }
+
+        fin.close();
+    }
+
+    //  Append this mission's result to a text file.
+    void saveResult() {
+        ofstream fout("game_history.txt", ios::app);
+
+        if (!fout) {
+            throw runtime_error("Unable to open game_history.txt for writing.");
+        }
+
+        fout << "Mission Result: "
+             << (won ? "SUCCESS" : "FAILED / QUIT") << '\n';
+        fout << "Moves Used: " << 35 - movesLeft << '\n';
+        fout << "Treasure: "
+             << (player.ownsTreasure() ? "Collected" : "Not collected")
+             << '\n';
+        fout << "-----------------------------\n";
+
+        if (!fout) {
+            throw runtime_error("Unable to write mission result to game_history.txt.");
+        }
+
+        fout.close();
+    }
+
       bool isWall(int x, int y) const {      //checking walls.
     if (map[y][x] == '#')
         return true;
@@ -174,7 +218,7 @@ private:
     }
 
     void checkTreasure() {              //checks if player collects treasure.
-       
+
         if (map[player.getY()][player.getX()] == 'T') {
             player.collectTreasure();   //calls player class function.
             map[player.getY()][player.getX()] = '.';
@@ -234,6 +278,10 @@ public:
           won(false) {}
 
     void run() {  //main member function.
+
+        // Show old results before starting a new mission.
+        showPreviousResults();
+
         cout << "====================================\n";
         cout << "       STEALTHOPS: THE HEIST\n";
         cout << "====================================\n";
@@ -324,13 +372,23 @@ public:
         }
 
         cout << "====================================\n";
+
+        // Save result once, after the mission has ended.
+        saveResult();
     }
 };
 
 // ================= MAIN FUNCTION =================
 int main() {
-    Game game;
-    game.run();
+    // Catch file-related exceptions thrown by saveResult().
+    try {
+        Game game;
+        game.run();
+    }
+    catch (const exception& e) {
+        cerr << "\nException: " << e.what() << '\n';
+        return 1;
+    }
 
     return 0;
-} 
+}
