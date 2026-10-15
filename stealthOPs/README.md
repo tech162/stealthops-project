@@ -113,7 +113,7 @@ stealthOPs/
 **1. Clone the repository**
 
 ```bash
-git clone https://github.com/<your-username>/stealthOPs.git
+git clone https://github.com/<tech162>/stealthOPs.git
 cd stealthOPs
 ```
 
@@ -141,10 +141,10 @@ src\code.exe
 
 | Name | Role |
 |------|------|
-| _Member 1_ | _Role_ |
-| _Member 2_ | _Role_ |
-| _Member 3_ | _Role_ |
-| _Member 4_ | _Role_ |
+| _Tejal Bonde_ | _7_ |
+| _Srushti Gaikwad_ | _14_ |
+| _Payal Lokhande_ | _34_ |
+| _Siddhi Shelar_ | _59_ |
 
 ---
 
