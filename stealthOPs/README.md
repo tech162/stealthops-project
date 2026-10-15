@@ -41,6 +41,9 @@ Input is not case-sensitive.
 - The **guard** patrols horizontally between two points and catches you if you end up right next to it (distance of 1 cell).
 - The **security camera** watches along its row. It spots you if you are in the same row with no wall between you and it. Walls block its view.
 - You have **35 moves** in total.
+- Previous mission results are displayed at startup if a history file is available.
+- After each mission, the result, moves used, and treasure status are saved to `game_history.txt`.
+- If saving a mission result fails, the program reports the error using exception handling.
 
 ### Win / Lose
 
@@ -51,7 +54,7 @@ Input is not case-sensitive.
 
 ## 🗺️ Starting Map
 
-```
+```text
 ############
 #....#....E#
 #.#..#.#...#
@@ -70,11 +73,14 @@ Player starts at the top-left, the guard patrols row 4, and the camera sits at t
 
 ## 🧱 Project Structure
 
-```
+```text
 stealthOPs/
-└── src/
-    └── code.cpp
+├── src/
+│   └── code.cpp
+└── game_history.txt  (created when mission results are saved)
 ```
+
+`game_history.txt` is created in the program's current working directory when mission results are saved. It stores the results between runs.
 
 ### Classes
 
@@ -85,6 +91,15 @@ stealthOPs/
 | `Guard` | Inherits `Character`. Patrols automatically between a left and right boundary |
 | `SecurityCamera` | Detects the player along its row, with wall blocking |
 | `Game` | Owns the map and all objects, runs the game loop, and checks treasure, exit and detection |
+
+### Mission History Functions
+
+The `Game` class also contains two functions for handling mission history:
+
+- **`showPreviousResults()`** reads and displays previous mission results using `ifstream`.
+- **`saveResult()`** appends the current mission result, moves used, and treasure status to `game_history.txt` using `ofstream`.
+
+If the history file cannot be written, the program throws a `runtime_error`.
 
 ---
 
@@ -98,6 +113,11 @@ stealthOPs/
 - **Composition:** `Game` contains `Player`, `Guard` and `SecurityCamera` objects
 - **`const` member functions** for functions that do not modify the object
 - **STL:** `vector<string>` used to store the map
+- **File handling:** `ifstream` reads previous mission results and `ofstream` saves new results
+- **Exception handling:** `try`, `catch`, and `runtime_error` handle file-writing errors
+- **Conditional statements:** `if-else` checks movement, walls, treasure, exit and detection
+- **Loops:** `while` runs the main game loop, and `for` checks the camera's line of sight
+- **Standard library headers:** `<fstream>` supports file handling and `<stdexcept>` provides runtime exceptions
 
 ---
 
@@ -120,7 +140,7 @@ cd stealthOPs
 **2. Compile**
 
 ```bash
-g++ src/code.cpp -o src/code.exe
+g++ -std=c++11 src/code.cpp -o src/code.exe
 ```
 
 **3. Run**
@@ -134,6 +154,8 @@ On Windows (Command Prompt / PowerShell):
 ```bash
 src\code.exe
 ```
+
+**Note:** The game may create `game_history.txt` in the current working directory to store mission results. Keep this file if you want to retain the history between runs.
 
 ---
 
