@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StealthOps: The Heist</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="top">
+      <h1>STEALTH<span>OPS</span></h1>
+      <p class="tagline">Steal the treasure. Slip past the guard. Escape.</p>
+    </header>
+
+    <section class="layout">
+      <!-- GAME AREA -->
+      <div class="game">
+        <div class="hud">
+          <div class="hud-item">
+            <span class="hud-label">Moves left</span>
+            <span class="hud-value" id="moves">35</span>
+            <div class="bar"><div class="bar-fill" id="moves-bar"></div></div>
+          </div>
+          <div class="hud-item">
+            <span class="hud-label">Treasure</span>
+            <span class="hud-value" id="treasure">Not collected</span>
+          </div>
+        </div>
+
+        <div class="board-wrap">
+          <div id="board" class="board" aria-label="Game board"></div>
+
+          <div id="overlay" class="overlay hidden">
+            <div class="overlay-card">
+              <h2 id="overlay-title"></h2>
+              <p id="overlay-text"></p>
+              <button id="overlay-btn" class="btn primary">Play again</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="message" id="message">Use W A S D or the arrow keys to move.</div>
+
+        <div class="dpad" aria-label="On-screen controls">
+          <button class="btn key up" data-dir="w" aria-label="Up">▲</button>
+          <button class="btn key left" data-dir="a" aria-label="Left">◀</button>
+          <button class="btn key down" data-dir="s" aria-label="Down">▼</button>
+          <button class="btn key right" data-dir="d" aria-label="Right">▶</button>
+        </div>
+      </div>
+
+      <!-- SIDE PANEL -->
+      <aside class="side">
+        <div class="panel">
+          <h3>Mission</h3>
+          <p>Collect the treasure and reach the exit within <b>35 moves</b>. The exit is locked until you have the treasure.</p>
+        </div>
+
+        <div class="panel">
+          <h3>Legend</h3>
+          <ul class="legend">
+            <li><span class="swatch">🥷</span> Player</li>
+            <li><span class="swatch">💂</span> Guard (patrols left and right)</li>
+            <li><span class="swatch">📷</span> Security camera</li>
+            <li><span class="swatch">💎</span> Treasure</li>
+            <li><span class="swatch">🚪</span> Exit</li>
+            <li><span class="swatch wall"></span> Wall</li>
+            <li><span class="swatch seen"></span> Camera's line of sight</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>Controls</h3>
+          <ul class="controls">
+            <li><kbd>W</kbd> <kbd>↑</kbd> Up</li>
+            <li><kbd>S</kbd> <kbd>↓</kbd> Down</li>
+            <li><kbd>A</kbd> <kbd>←</kbd> Left</li>
+            <li><kbd>D</kbd> <kbd>→</kbd> Right</li>
+            <li><kbd>R</kbd> Restart</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <h3>Rules</h3>
+          <ul class="rules">
+            <li>The guard moves one step after every move you make.</li>
+            <li>If the guard ends up next to you, you are caught.</li>
+            <li>If the camera sees you in its row, you are caught.</li>
+            <li>Walls block the camera's view.</li>
+            <li>Bumping into a wall does not use a move.</li>
+          </ul>
+        </div>
+
+        <button id="restart" class="btn ghost">Restart mission</button>
+      </aside>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
