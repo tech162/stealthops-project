@@ -148,12 +148,16 @@ private:
     bool gameOver;
     bool won;
 
-    bool isWall(int x, int y) const {        //checking walls.
-        return map[y][x] == '#';
-    }
+      bool isWall(int x, int y) const {      //checking walls.
+    if (map[y][x] == '#')
+        return true;
+    else
+        return false;
+         }
 
-    void displayMap() const {
-        vector<string> board = map;
+
+    void displayMap() const {           //to show player current game situtaion.
+        vector<string> board = map;     //creates copy of orginal maps.
 
         board[camera.getY()][camera.getX()] = 'C';
         board[guard.getY()][guard.getX()] = 'G';
@@ -169,15 +173,16 @@ private:
              << "\n";
     }
 
-    void checkTreasure() {
+    void checkTreasure() {              //checks if player collects treasure.
+       
         if (map[player.getY()][player.getX()] == 'T') {
-            player.collectTreasure();
+            player.collectTreasure();   //calls player class function.
             map[player.getY()][player.getX()] = '.';
             cout << "\nTreasure collected!\n";
         }
     }
 
-    void checkExit() {
+    void checkExit() {    //to check exit 
         if (map[player.getY()][player.getX()] == 'E') {
             if (player.ownsTreasure()) {
                 won = true;
@@ -190,7 +195,7 @@ private:
 
     void checkDetection() {
         int distance =
-            abs(player.getX() - guard.getX()) +
+            abs(player.getX() - guard.getX()) +      //abs is absolute value convert -ve to +ve.
             abs(player.getY() - guard.getY());
 
         if (distance <= 1) {
@@ -208,10 +213,10 @@ private:
     }
 
 public:
-    Game()
+    Game()    //constructor.
         : map({
-            "############",
-            "#....#....E#",
+            "############",    // : begins the member initializer list,
+            "#....#....E#",             // the constructor runs automatically when a Game object is created.
             "#.#..#.#...#",
             "#.#.....#..#",
             "#..........#",
@@ -228,7 +233,7 @@ public:
           gameOver(false),
           won(false) {}
 
-    void run() {
+    void run() {  //main member function.
         cout << "====================================\n";
         cout << "       STEALTHOPS: THE HEIST\n";
         cout << "====================================\n";
@@ -249,7 +254,7 @@ public:
         while (!gameOver && movesLeft > 0) {
             displayMap();
 
-            char choice;
+            char choice;   //new variable.
             cout << "\nYour move (W/A/S/D/Q): ";
             cin >> choice;
             choice = tolower(choice);
@@ -257,16 +262,16 @@ public:
             if (choice == 'q') {
                 cout << "\nYou left the mission.\n";
                 gameOver = true;
-                break;
+                break;    // Exit the loop when the player quits.
             }
 
             if (choice != 'w' && choice != 'a' &&
                 choice != 's' && choice != 'd') {
                 cout << "Invalid input! Try W, A, S or D.\n";
-                continue;
+                continue;     // Skip invalid input and ask again.
             }
 
-            int oldX = player.getX();
+            int oldX = player.getX();   //used to remember the player's previous position before moving.
             int oldY = player.getY();
 
             player.move(choice);
